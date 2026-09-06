@@ -16,6 +16,8 @@ at its root and all required scripts and artwork at relative paths.
 Use **Click to launch in fullscreen**, or an embedded viewport of **1280 x 720**
 with the fullscreen button enabled. Leave scrollbars disabled.
 
+Cover art and store screenshots live in `assets/store/`; see the README there.
+
 Regenerate the ZIP after edits by running `./tools/package-itch.ps1` in PowerShell.
 Packaging needs no Node or npm. The ZIP excludes the preview server, tests,
 original concept artwork, and unused images.
