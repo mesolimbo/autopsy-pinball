@@ -49,7 +49,7 @@ The personal best is saved locally when the procedure ends.
 
 Three.js renders a perspective camera tilted 30 degrees from vertical, a shallow
 3D cabinet, beveled extruded organ meshes, physically lit image textures, cast
-shadows, raised neon rails, and a metallic sphere. Physics remains on the original
+shadows, raised neon rails, and a faceted translucent green crystal orb. Physics remains on the original
 2D playfield coordinates. A loading screen crossfades into the first fully textured 3D frame over 650 ms.
 The flat renderer is never shown; loading failures offer a retry. Controls remain
 inactive until ready, and reduced-motion preferences disable the transition. `art-data.js` contains paths extracted from the original SVG. `art-polish.js`
@@ -85,3 +85,17 @@ The stomach has a convex upper contour. Organ scoring requires a meaningful
 impact and rearms only after the ball leaves a clearance zone, preventing
 continuous contacts from generating repeated points. Tests cover the contour,
 contact scoring, rearming, perspective projection, extrusion and shadow setup.
+
+The title uses three separate transparent generated wordmarks, stacked on the
+loading screen and wide sidebar and arranged horizontally in the narrow panel.
+Assets and generation prompts are documented in `assets/LOGO-GENERATION.md`.
+
+The specimen rests on a satin stainless-steel tray with a raised rim and sparse
+alien residue. The deep-red playfield has branching subsurface veins and a
+restrained tissue sheen over a barely visible grid.
+
+A modeled steel scalpel with a grooved handle rests on the left of the specimen.
+
+The ball is a dark emerald gem with restrained internal light. Its pooled glow
+trail follows recent ball positions through rebounds, scaling length and opacity
+with speed. Reduced-motion preferences suppress the trail.

@@ -64,3 +64,28 @@ body[data-load-state="error"] .loading-track{display:none}
 #view-toggle{pointer-events:auto;font:inherit;letter-spacing:inherit;min-height:32px;padding:5px 8px;margin:-8px -8px -8px 4px;border-color:#647b4755;background:#102017cc;color:#b7c8a6;white-space:nowrap}
 #view-toggle:hover{color:#dcffba;border-color:#a1c276;background:#203322}
 #view-toggle:focus-visible{outline-offset:2px}
+/* Independent transparent wordmarks can reflow without scaling a fixed lockup. */
+.intro h1.game-logo,#loading-screen h2.game-logo{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:0;line-height:0;letter-spacing:0;width:100%;margin:16px 0 18px}
+.game-logo .logo-piece{display:block;position:relative;overflow:hidden;flex:none;margin:0;line-height:0;font-size:0;letter-spacing:0}
+.game-logo .logo-piece img{display:block;position:absolute;height:auto;max-width:none}
+.game-logo .logo-glow{width:76%;aspect-ratio:1628/654}
+.game-logo .logo-glow img{width:102.7%;left:-1.54%;top:-19.72%}
+.game-logo .logo-autopsy{width:100%;aspect-ratio:2132/521}
+.game-logo .logo-autopsy img{width:101.88%;left:-.94%;top:-17.66%}
+.game-logo .logo-pinball{width:72%;aspect-ratio:2074/475}
+.game-logo .logo-pinball img{width:104.73%;left:-2.07%;top:-21.47%}
+#loading-screen h2.loading-logo{width:min(460px,80vw);gap:8px;margin:20px 0 18px}
+#loading-screen .loading-emblem{font-size:28px;margin-bottom:12px}
+@media(min-width:600px) and (max-width:800px){
+ .intro h1.game-logo{flex:1;min-width:0;flex-direction:row;gap:5px;margin:0;justify-content:flex-start}
+ .intro h1.game-logo .logo-glow{width:23%}.intro h1.game-logo .logo-autopsy{width:43%}.intro h1.game-logo .logo-pinball{width:29%}
+}
+@media(max-width:599px){.intro h1.game-logo{align-self:center;max-width:190px;margin:0;gap:1px}.intro h1.game-logo .logo-glow{width:55%}.intro h1.game-logo .logo-autopsy{width:85%}.intro h1.game-logo .logo-pinball{width:60%}}
+@media(min-width:801px) and (max-height:600px){.intro h1.game-logo{max-width:175px;margin:8px auto;gap:2px}}
+@media(max-height:560px){#loading-screen h2.loading-logo{width:min(280px,65vw);gap:3px;margin:8px 0}#loading-screen .loading-emblem{display:none}}
+.primary.begin-procedure{justify-content:center;text-align:center;font-size:13px;font-weight:600;letter-spacing:.7px;padding:0 10px}
+.primary.begin-procedure span{display:none}
+.scene-banner.awaiting-release{animation:release-prompt 2.6s ease-in-out infinite}
+@keyframes release-prompt{0%,100%{opacity:1}50%{opacity:.25}}
+@media(max-width:599px){.primary.begin-procedure{font-size:11px;letter-spacing:.3px}}
+@media(prefers-reduced-motion:reduce){.scene-banner.awaiting-release{animation:none}}

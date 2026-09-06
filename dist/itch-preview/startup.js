@@ -11,6 +11,7 @@ function showLoadingError(error){
 }
 function revealPlayfield(){
   if(revealScheduled||document.body.dataset.loadState!=='loading')return;
+  if(!Array.from(document.querySelectorAll('.game-logo img')).every(img=>img.complete&&img.naturalWidth>0))return;
   revealScheduled=true;
   // Allow the completed frame to reach the browser before starting the crossfade.
   requestAnimationFrame(()=>{
