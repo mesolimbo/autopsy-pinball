@@ -73,7 +73,8 @@ preview helper and is not needed for hosting.
 
 Desktop, narrow-panel, and phone layouts allocate the available viewport height
 to the table, preserving its aspect ratio. Verified at 1366×768, 1280×600,
-1024×600, and 700×650. Open `tests.html` to run the isolated game verification
+1024×600, 700×650, 599×479, and 568×320. Narrow landscape screens collapse the
+title and controls onto one row so the table still fits without scrolling. Open `tests.html` to run the isolated game verification
 harness, including solid-mouth and foot-flipper collision checks.
 
 The feet rest at a slight upward angle and absorb passive rebounds. Powered

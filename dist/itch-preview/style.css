@@ -34,7 +34,7 @@
   .telemetry{grid-column:2;grid-row:2;display:block;width:100%;align-self:center;order:initial}.telemetry>.eyebrow,.score-label,.record{display:block}.telemetry>.eyebrow{font-size:7px}.score-label{font-size:7px;margin-top:18px}output{font-size:29px;margin:8px 0 12px}.record{display:flex;font-size:6px}.record b{font-size:8px}.stats{margin-top:17px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:15px 0}.stats strong{font-size:20px}.stats small{font-size:10px}.stats>div:last-child{padding-left:12px}.stats span{font-size:6px}.anatomy{display:block;margin-top:18px}.anatomy>.eyebrow{font-size:6px;line-height:1.5}.anatomy>div:not(:first-child){font-size:8px;gap:7px;padding:9px 0}.anatomy b{font-size:8px}.anatomy small,.monitor{display:none}.quiet{margin-top:12px;font-size:8px}
   footer{height:24px;margin:0 3%;padding:7px 0;font-size:6px}
 }
-@media(max-width:599px) and (min-height:480px){
+@media(max-width:599px){
   html,body{height:100%;margin:0}body{height:100dvh;display:grid;grid-template-rows:48px minmax(0,1fr) 22px;overflow:hidden}header{height:48px;gap:10px;margin:0 4%;font-size:8px}.brand{gap:8px}.brand-icon{font-size:26px}header button{min-height:32px;font-size:8px;padding:0 9px}header button span{margin-left:8px}
   main{display:grid;width:100%;height:100%;min-height:0;margin:0;padding:10px 4%;grid-template-columns:minmax(0,1fr);grid-template-rows:100px 42px minmax(0,1fr);gap:10px}
   .intro{grid-row:1;display:grid;grid-template-columns:minmax(0,1fr) 145px;grid-template-rows:16px 48px 28px;gap:0 10px}.intro>.eyebrow{font-size:6px;letter-spacing:.8px}.intro h1{grid-column:1;grid-row:2/4;font-size:37px;line-height:.9;margin:0;letter-spacing:-.4px}.intro h1 span{font-size:24px;letter-spacing:2px;margin-top:7px}.primary{grid-column:2;grid-row:2;margin:0;height:36px;min-height:36px;font-size:8px;padding:0 10px}#message{grid-column:2;grid-row:3;font-size:7px;line-height:1.5;margin-top:4px}
@@ -89,3 +89,16 @@ body[data-load-state="error"] .loading-track{display:none}
 @keyframes release-prompt{0%,100%{opacity:1}50%{opacity:.25}}
 @media(max-width:599px){.primary.begin-procedure{font-size:11px;letter-spacing:.3px}}
 @media(prefers-reduced-motion:reduce){.scene-banner.awaiting-release{animation:none}}
+/* Narrow landscape screens: collapse the intro to one row so the table still fits without scrolling. */
+@media(max-width:599px) and (max-height:479px){
+  body{grid-template-rows:40px minmax(0,1fr) 0}header{height:40px;font-size:7px}header button{min-height:28px;font-size:7px}footer{display:none}
+  main{padding:6px 4%;grid-template-rows:36px 30px minmax(0,1fr);gap:6px}
+  .intro{grid-template-columns:minmax(0,1fr) 130px;grid-template-rows:36px;align-items:center}.intro>.eyebrow,#message{display:none}
+  .intro h1.game-logo{grid-column:1;grid-row:1;flex-direction:row;justify-content:flex-start;width:100%;max-width:300px;gap:4px;margin:0}
+  .intro h1.game-logo .logo-glow{width:24%}.intro h1.game-logo .logo-autopsy{width:44%}.intro h1.game-logo .logo-pinball{width:30%}
+  .primary{grid-column:2;grid-row:1;height:30px;min-height:30px}.primary.begin-procedure{font-size:9px}
+  .telemetry{grid-row:2;gap:8px}.telemetry output{font-size:20px}.stats strong{font-size:14px}.stats small{font-size:8px}.quiet{min-height:28px;font-size:7px}
+  .game{grid-row:3;border-radius:36px 36px 10px 10px}.table-top,.table-bottom{display:none}
+  .touch{padding:0 10px 8px;gap:8px}.touch button{min-height:30px;font-size:7px}
+}
+
