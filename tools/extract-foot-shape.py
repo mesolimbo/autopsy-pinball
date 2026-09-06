@@ -1,6 +1,6 @@
 """Read sprite alpha and generate a matching, ball-sized collision envelope.
 
-Usage: python tools/extract-foot-shape.py assets/foot-sprite-green.png
+Usage: python tools/extract-foot-shape.py assets/foot-sprite.png
 Requires Pillow and NumPy only for this asset preparation step.
 The PNG itself is never modified.
 """
@@ -12,7 +12,7 @@ import numpy as np
 from PIL import Image
 
 root = Path(__file__).resolve().parent.parent
-source = root / (sys.argv[1] if len(sys.argv) > 1 else 'assets/foot-sprite-green.png')
+source = root / (sys.argv[1] if len(sys.argv) > 1 else 'assets/foot-sprite.png')
 sprite = Image.open(source)
 if sprite.mode != 'RGBA':
     raise ValueError('The foot sprite must have actual alpha transparency.')
