@@ -49,21 +49,28 @@ style, bioluminescent lime and mint highlights with restrained magenta tissue
 accents. Highly polished digital illustration, no text, no words, no lettering,
 no logo, no watermark, no UI elements.
 
-**`banner-ball-source.png`** — Wide letterbox banner. Extreme close-up macro
-shot, composed as a strong horizontal band across the exact vertical centre of
-the frame: a dark emerald glass sphere streaking horizontally at speed through
-the middle of the image, dragging a long luminous lime-green light trail behind
-it that stretches off the left edge in a straight horizontal line. The ball
-rushes past glistening deep blood-red translucent alien tissue with branching
-subsurface veins and a glistening pale pink folded brain surface, all in shallow
-depth of field so the tissue is softly blurred while the ball stays sharp. Keep
-the ball and its trail exactly on the horizontal centre line. Wet clinical
-sheen, bioluminescent lime and mint rim lighting, faint magenta capillary
-accents, dramatic horizontal motion blur, near-black shadows at the far left and
-far right edges, and plain dark uneventful tissue along the very top and very
-bottom edges. Premium arcade cabinet illustration style, rich contrast,
-cinematic. No text, no words, no lettering, no logo, no watermark, no UI
-elements, no pinball table, no wide room, no machinery.
+**`banner-ball-source.png`** — Stylized cartoon illustration, wide letterbox
+banner, artwork filling the entire frame edge to edge with no black bars.
+Composed as a strong horizontal band across the exact vertical centre. A plain
+smooth glossy dark emerald green glass sphere streaks horizontally through the
+middle of the image, dragging a long clean lime-green light trail behind it that
+stretches off the left edge in a straight horizontal line. The sphere is a
+simple polished gem ball with only a soft white highlight on it: absolutely no
+skull, no face, no eyes, no symbol, no logo, no marking of any kind on the ball.
+It rushes past friendly stylized alien anatomy: smooth rounded shapes of deep
+muted blood-red and dark maroon tissue with simple curved vein lines, and a
+plump cartoon brain with soft muted dusty-pink rounded lobes on the right.
+Restrained dark palette built on deep forest green, dark maroon and lime green,
+not bright, not candy-coloured, no hot pink, no bubblegum. Clean vector-like
+illustration with bold simplified forms, smooth flat gradients, glossy beveled
+surfaces and crisp highlights, like polished arcade cabinet art. Playful spooky
+mood, not realistic, not gory, no wet slimy detail, no blood. Near-black shadows
+at the far left and far right edges. No text, no words, no lettering, no
+watermark, no UI elements, no pinball table, no machinery.
+
+A photoreal treatment of this scene read as gore rather than arcade art, and
+asking only for "cartoon" put a skull on the ball. Both negatives above are
+load-bearing.
 
 **`page-background.png`** — A very dark, subtle, almost black background texture
 for a web page. Deep forest-green to near-black brushed stainless steel
