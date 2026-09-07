@@ -115,16 +115,35 @@ function create3DTable(fallbackCanvas){
   for(let i=0;i<mouthOpening.length;i++){const a=mouthOpening[i],b=mouthOpening[(i+1)%mouthOpening.length];const v=(p,h)=>[p.x-396,h,p.y-306];liningPositions.push(...v(a,-19),...v(b,-19),...v(b,7),...v(a,-19),...v(b,7),...v(a,7));}
   const liningGeometry=new T.BufferGeometry();liningGeometry.setAttribute('position',new T.Float32BufferAttribute(liningPositions,3));liningGeometry.computeVertexNormals();
   const liningMesh=new T.Mesh(liningGeometry,new T.MeshStandardMaterial({color:0x291720,roughness:.48,side:T.DoubleSide}));liningMesh.receiveShadow=true;table.add(liningMesh);
+  // The iris rides on its own plane above the sclera so it can shift to follow the ball.
+  // Drawn at the same spot in the same 180px space as the eye texture, so it starts centred.
+  const IRIS={cx:90,cy:103,rx:34,ry:39};
+  function paintIris(c,tilt){c.translate(IRIS.cx,IRIS.cy);c.rotate(tilt);const iris=c.createRadialGradient(-7,-10,0,0,0,39);iris.addColorStop(0,'#d7ff91');iris.addColorStop(.65,'#64b958');iris.addColorStop(1,'#214c36');c.fillStyle=iris;c.beginPath();c.ellipse(0,0,IRIS.rx,IRIS.ry,0,0,7);c.fill();c.strokeStyle='#24573366';c.lineWidth=1;for(let i=0;i<30;i++){const a=i*Math.PI/15;c.beginPath();c.moveTo(Math.cos(a)*15,Math.sin(a)*19);c.lineTo(Math.cos(a)*31,Math.sin(a)*35);c.stroke();}c.fillStyle='#031009';c.beginPath();c.ellipse(0,0,8,31,0,0,7);c.fill();c.fillStyle='#fffce9';c.beginPath();c.ellipse(-10,-15,7,5,-.4,0,7);c.fill();}
+  // Travel is how far the iris centre can slide in the 180px texture space before reaching the
+  // eyelid, less a margin for the eye being an oval rather than its bounding box. The iris sits
+  // below centre, so the shorter vertical side sets the limit.
+  const IRIS_MARGIN=.8,IRIS_TRAVEL_X=(IRIS.cx-IRIS.rx)*IRIS_MARGIN,IRIS_TRAVEL_Y=(Math.min(IRIS.cy,180-IRIS.cy)-IRIS.ry)*IRIS_MARGIN,irisMeshes=[];
   const organMeshes=[];
   for(const o of organs){
     const config={brain:[15,3.5,0x7a455b],stomach:[14,3.5,0x52643a],eye:[14,5,0x6c8667],mouth:[1,0,0x21131d],bone:[o.visualOnly?5:7,o.visualOnly?.6:1.4,0x91816a]}[o.type];
     let map=textures[o.type]||null;
-    if(o.type==='eye')map=canvasMap(180,180,c=>{const g=c.createRadialGradient(58,45,4,90,90,100);g.addColorStop(0,'#ffffeb');g.addColorStop(.6,'#cad9b4');g.addColorStop(1,'#83967b');c.fillStyle=g;c.fillRect(0,0,180,180);c.save();c.translate(90,103);c.rotate(o.cx<396?-.25:.25);const iris=c.createRadialGradient(-7,-10,0,0,0,39);iris.addColorStop(0,'#d7ff91');iris.addColorStop(.65,'#64b958');iris.addColorStop(1,'#214c36');c.fillStyle=iris;c.beginPath();c.ellipse(0,0,34,39,0,0,7);c.fill();c.strokeStyle='#24573366';c.lineWidth=1;for(let i=0;i<30;i++){const a=i*Math.PI/15;c.beginPath();c.moveTo(Math.cos(a)*15,Math.sin(a)*19);c.lineTo(Math.cos(a)*31,Math.sin(a)*35);c.stroke();}c.fillStyle='#031009';c.beginPath();c.ellipse(0,0,8,31,0,0,7);c.fill();c.fillStyle='#fffce9';c.beginPath();c.ellipse(-10,-15,7,5,-.4,0,7);c.fill();c.restore();});
+    if(o.type==='eye')map=canvasMap(180,180,c=>{const g=c.createRadialGradient(58,45,4,90,90,100);g.addColorStop(0,'#ffffeb');g.addColorStop(.6,'#cad9b4');g.addColorStop(1,'#83967b');c.fillStyle=g;c.fillRect(0,0,180,180);});
     const mesh=extrude(o.type==='mouth'?mouthOpening:o.pts,{cx:o.cx,cy:o.cy,height:o.type==='mouth'?-20:o.visualOnly?-15:1,uvBounds:bounds(o.pts),depth:config[0],bevel:config[1],map,sideColor:config[2],roughness:o.type==='mouth'?.34:o.type==='eye'?.27:.5});
     organMeshes.push({o,mesh});
+    if(o.type==='eye'){
+      const b=bounds(o.pts),irisMap=canvasMap(180,180,c=>paintIris(c,o.cx<396?-.25:.25));
+      const plane=new T.Mesh(new T.PlaneGeometry(b.width,b.height),new T.MeshStandardMaterial({map:irisMap,transparent:true,depthWrite:false,roughness:.27,envMapIntensity:.18,emissive:0xffffff,emissiveMap:irisMap,emissiveIntensity:.08}));
+      plane.rotation.x=-Math.PI/2;plane.renderOrder=1;
+      // The plane covers the eye's texture space exactly, so it sits just clear of the beveled top face.
+      mesh.geometry.computeBoundingBox();
+      const restX=b.minX+b.width/2-396,restZ=b.minY+b.height/2-306;
+      plane.position.set(restX,mesh.position.y+mesh.geometry.boundingBox.max.z+.4,restZ);
+      table.add(plane);
+      irisMeshes.push({plane,restX,restZ,travelX:b.width*IRIS_TRAVEL_X/180,travelZ:b.height*IRIS_TRAVEL_Y/180,x:0,z:0});
+    }
   }
   const footMeshes=flippers.map(f=>{const mesh=extrude(footShape.pts,{cx:0,cy:0,height:2,depth:7,bevel:1.2,color:0x91a571,sideColor:0x3e5335,roughness:.5});table.remove(mesh);mesh.position.set(0,2,0);const group=new T.Group();group.position.set(f.x-396,0,f.y-306);group.add(mesh);table.add(group);const hinge=new T.Mesh(new T.CylinderGeometry(5.5,5.5,4,24),new T.MeshStandardMaterial({color:0xc7d3aa,metalness:.8,roughness:.2}));hinge.position.y=12;hinge.castShadow=true;group.add(hinge);return{f,mesh,group};});
-  let footReady=false;
+  let footReady=false,eyeClock=0;
   // Dark emerald facets and restrained internal reflections, matching the logo gems.
   const ballMesh=new T.Group();table.add(ballMesh);
   const crystal=new T.Mesh(new T.IcosahedronGeometry(ball.r,2),new T.MeshPhysicalMaterial({color:0x07512b,metalness:.08,roughness:.17,transmission:.28,thickness:ball.r*1.8,attenuationColor:0x064624,attenuationDistance:5,ior:1.7,clearcoat:1,clearcoatRoughness:.12,flatShading:true,envMapIntensity:.75,emissive:0x021a09,emissiveIntensity:.08}));
@@ -181,6 +200,14 @@ function create3DTable(fallbackCanvas){
     if(!footReady&&footImage.complete&&footImage.naturalWidth&&footMaskImage.complete&&footMaskImage.naturalWidth){const map=canvasMap(560,240,c=>{c.drawImage(footImage,40,0,2076,729,0,0,560,240);c.globalCompositeOperation='destination-in';c.drawImage(footMaskImage,...FOOT_IMAGE_BOUNDS,0,0,560,240);});for(const f of footMeshes){f.mesh.material[0].color.set(0xffffff);f.mesh.material[0].map=map;f.mesh.material[0].alphaTest=.35;f.mesh.material[0].bumpMap=map;f.mesh.material[0].bumpScale=.3;f.mesh.material[0].emissiveMap=map;f.mesh.material[0].emissive.set(0xffffff);f.mesh.material[0].emissiveIntensity=.08;f.mesh.material[0].needsUpdate=true;}footReady=true;}
     table.position.x=reduced?0:Math.sin(time*75)*shake*2;table.position.z=reduced?0:Math.cos(time*65)*shake*1.4;
     ballMesh.visible=ball.live;ballMesh.position.set(ball.x-396,ball.r+.6,ball.y-306);ballMesh.rotation.x+=ball.vy*.0002;ballMesh.rotation.z-=ball.vx*.0002;syncTrail();
+    // Each iris eases toward a unit vector pointing at the ball, and recentres when no ball is live.
+    const eyeStep=Math.min(1,Math.max(0,time-eyeClock)*9);eyeClock=time;
+    for(const e of irisMeshes){
+      let tx=0,tz=0;
+      if(ball.live){const dx=ball.x-(e.restX+396),dz=ball.y-(e.restZ+306),d=Math.hypot(dx,dz);if(d>1){tx=dx/d;tz=dz/d;}}
+      e.x+=(tx-e.x)*eyeStep;e.z+=(tz-e.z)*eyeStep;
+      e.plane.position.x=e.restX+e.x*e.travelX;e.plane.position.z=e.restZ+e.z*e.travelZ;
+    }
     for(const {o,mesh}of organMeshes){mesh.material[0].emissive.set(0xffffff);mesh.material[0].emissiveIntensity=.08+o.hit*.18;}
     lipMesh.material[0].emissiveIntensity=.08+mouth.hit*.3;
     for(const {f,mesh,group}of footMeshes){group.rotation.y=-f.side*f.a;group.scale.x=f.side;mesh.material[0].color.set(time<tiltLockedUntil?0x4a5152:0xffffff);}

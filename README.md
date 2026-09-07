@@ -99,6 +99,10 @@ restrained tissue sheen over a barely visible grid.
 
 A modeled steel scalpel with a grooved handle rests on the left of the specimen.
 
+The irises sit on their own planes above the sclera and slide to follow the ball,
+easing back to centre when no ball is live. Their travel is derived from the iris
+size within the eye texture, so they stop short of the eyelid.
+
 The ball is a dark emerald gem with restrained internal light. Its pooled glow
 trail follows recent ball positions through rebounds, scaling length and opacity
 with speed. Reduced-motion preferences suppress the trail.
